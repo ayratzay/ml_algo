@@ -3,6 +3,7 @@ __author__ = 'Freeman'
 import random
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.special import expit
 
 
 def linear_regression(x0, x1, theta0, theta1):
@@ -113,3 +114,34 @@ class NormalEquation:
         self._theta = np.dot(step, y)
         error_array = np.dot(X, self._theta) - y
         self._mse = sum(error_array ** 2 / (2 * X.shape[0]))
+
+
+class LogisticRegressionMatrix:
+    def __init__(self, learning_rate=0.05, iterations=1000):
+        self.learning_rate = learning_rate
+        self.iterations = iterations
+        self._theta = None
+        self._mse = None
+
+    def __repr__(self):
+        return "Logistic regression based on matricies"
+
+    def fit(self, X, y):
+        m = X.shape[0]
+        theta = np.random.randint(m, size=X.shape[1])
+
+        for i in xrange(self.iterations):
+            hypothesis = expit(X.dot(theta))
+            term1 = y * np.log(hypothesis)
+            term2 = (1 - y) * np.log(1 - hypothesis)
+            cost = sum((term1 + term2) / -m)
+            theta = theta - self.learning_rate * X.T.dot( (hypothesis - y))
+            print cost
+        self._theta = theta
+
+    def predict(self, x, boolean = True):
+        if boolean:
+            return (expit(x.dot(self._theta)) >= 0.5).astype(int)
+        else:
+            return expit(x.dot(self._theta))
+

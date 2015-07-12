@@ -5,6 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from algo import LinerRegressionNoMatrix
 from algo import LinearRegressionMatrix
+from algo import LogisticRegressionMatrix
 
 import timeit
 
@@ -42,3 +43,9 @@ lr.sort(), mse.sort(), it.sort()
 
 plt.plot(lr, mse, 'b-')
 plt.plot(lr, it, 'r--')
+
+
+X, y
+mdl = LogisticRegressionMatrix(iterations=1000, learning_rate=0.05)
+mdl.fit(X, y)
+mdl.predict(X)
